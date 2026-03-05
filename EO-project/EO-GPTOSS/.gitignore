@@ -1,0 +1,25 @@
+﻿# Python
+venv/
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# Data (too large for git)
+data/raw/
+data/processed/
+checkpoints/
+*.pt
+*.pth
+*.npy
+
+# Node
+node_modules/
+frontend/build/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Keep
+!.gitkeep

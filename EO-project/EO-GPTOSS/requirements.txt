@@ -1,0 +1,65 @@
+# ISRO Multimodal Satellite Imagery Project
+# Python Package Requirements
+
+# Deep Learning Framework
+torch>=2.0.0
+torchvision>=0.15.0
+torchaudio>=2.0.0
+
+# Transformers and Model Libraries
+transformers==4.36.0
+accelerate==0.25.0
+peft==0.7.1
+bitsandbytes==0.41.3
+sentencepiece==0.1.99
+protobuf==3.20.3
+
+# Geospatial Libraries
+rasterio==1.3.9
+geopandas==0.14.1
+shapely==2.0.2
+pyproj==3.6.1
+earthengine-api==0.1.383
+
+# Scientific Computing
+numpy==1.24.3
+pandas==2.1.4
+scipy>=1.11.0
+
+# Computer Vision
+opencv-python==4.8.1.78
+scikit-image==0.22.0
+pillow==10.1.0
+
+# Machine Learning
+scikit-learn==1.3.2
+
+# Visualization
+matplotlib==3.8.2
+seaborn==0.13.0
+plotly==5.18.0
+
+# Web Interface
+streamlit==1.29.0
+gradio>=4.0.0
+
+# Jupyter
+jupyter==1.0.0
+ipykernel==6.27.1
+ipywidgets==8.1.1
+
+# Utilities
+tqdm==4.66.1
+requests==2.31.0
+aiohttp==3.9.1
+python-dotenv==1.0.0
+pyyaml==6.0.1
+
+# Experiment Tracking (optional)
+wandb==0.16.1
+tensorboard>=2.15.0
+
+# Code Quality (optional)
+black>=23.0.0
+flake8>=6.0.0
+pytest>=7.4.0
