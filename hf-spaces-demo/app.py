@@ -513,7 +513,7 @@ body { background: #050505; overflow: hidden; }
 </head>
 <body>
 <div id="map"></div>
-<div class="instructions">Hold <span>SHIFT</span> + drag to select analysis area</div>
+<div class="instructions">Satellite imagery — use controls above map to analyze any region</div>
 <div class="bbox-info" id="bboxInfo"></div>
 <div class="coord-display" id="coordDisplay">0.0000, 0.0000</div>
 
@@ -523,23 +523,26 @@ const map = new maplibregl.Map({
     style: {
         version: 8,
         sources: {
-            'carto-dark': {
+            'esri-satellite': {
                 type: 'raster',
-                tiles: ['https://a.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}@2x.png'],
+                tiles: [
+                    'https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}'
+                ],
                 tileSize: 256,
-                attribution: '© CARTO © OSM'
+                attribution: '© Esri © DigitalGlobe',
+                maxzoom: 18
             }
         },
         layers: [{
-            id: 'carto-dark-layer',
+            id: 'esri-satellite-layer',
             type: 'raster',
-            source: 'carto-dark',
+            source: 'esri-satellite',
             minzoom: 0,
-            maxzoom: 20
+            maxzoom: 18
         }]
     },
-    center: [0, 20],
-    zoom: 2,
+    center: [78, 22],
+    zoom: 3,
     maxZoom: 18,
     minZoom: 1
 });
@@ -716,6 +719,45 @@ with st.sidebar:
 
 
 # ══════════════════════════════════════════════════════════════
+#  QUICK ACCESS — Location Buttons + Coordinate Input
+# ══════════════════════════════════════════════════════════════
+
+QUICK_LOCATIONS = {
+    "🌿 Amazon Rainforest": (-3.0, -60.0, 2.0, -55.0),
+    "🏙️ New Delhi": (28.3, 76.8, 29.0, 77.5),
+    "🏜️ Sahara Desert": (22.0, 10.0, 27.0, 15.0),
+    "🌊 Indian Ocean": (5.0, 70.0, 10.0, 80.0),
+    "🏔️ Himalayas": (27.5, 85.5, 28.5, 87.0),
+    "🌾 Punjab Crops": (30.0, 74.0, 32.0, 76.0),
+    "🗼 Tokyo Urban": (35.5, 139.5, 35.9, 140.0),
+    "🌲 Congo Forest": (-2.0, 18.0, 2.0, 25.0),
+}
+
+# Quick access buttons
+st.markdown("<div style='font-family:JetBrains Mono,monospace;font-size:0.7rem;color:#4a5568;padding:2px 0;'>QUICK TARGETS</div>", unsafe_allow_html=True)
+btn_cols = st.columns(len(QUICK_LOCATIONS))
+for i, (name, coords) in enumerate(QUICK_LOCATIONS.items()):
+    if btn_cols[i].button(name, key=f"loc_{i}", use_container_width=True):
+        s, w, n, e = coords
+        st.session_state.messages = []
+        st.session_state.current_analysis = generate_analysis(s, w, n, e)
+        st.session_state.analysis_count += 1
+        st.rerun()
+
+# Coordinate input row
+with st.container():
+    c1, c2, c3, c4, c5 = st.columns([1.2, 1.2, 1.2, 1.2, 1])
+    south = c1.number_input("South", value=20.0, format="%.2f", key="s_in", label_visibility="collapsed")
+    west = c2.number_input("West", value=70.0, format="%.2f", key="w_in", label_visibility="collapsed")
+    north = c3.number_input("North", value=25.0, format="%.2f", key="n_in", label_visibility="collapsed")
+    east = c4.number_input("East", value=80.0, format="%.2f", key="e_in", label_visibility="collapsed")
+    if c5.button("🔍 ANALYZE", use_container_width=True, type="primary"):
+        st.session_state.messages = []
+        st.session_state.current_analysis = generate_analysis(south, west, north, east)
+        st.session_state.analysis_count += 1
+        st.rerun()
+
+# ══════════════════════════════════════════════════════════════
 #  MAIN LAYOUT: Map | Analysis Panel
 # ══════════════════════════════════════════════════════════════
 
@@ -723,34 +765,7 @@ map_col, panel_col = st.columns([7, 3], gap="small")
 
 # ── Map ──
 with map_col:
-    components.html(create_map_html(), height=620, scrolling=False)
-
-# ── Handle bbox from URL params ──
-bbox_input = st.query_params.get("bbox", None)
-if bbox_input:
-    try:
-        parts = [float(x) for x in bbox_input.split(",")]
-        if len(parts) == 4:
-            st.session_state.bbox = {
-                "south": parts[0], "west": parts[1],
-                "north": parts[2], "east": parts[3]
-            }
-    except Exception:
-        pass
-
-# ── Manual coordinate input fallback ──
-with map_col:
-    with st.expander("📍 Manual Coordinates (or use Shift+drag on map)"):
-        mc1, mc2, mc3, mc4, mc5 = st.columns([1, 1, 1, 1, 1])
-        south = mc1.number_input("S", value=20.0, format="%.4f", key="s_in")
-        west = mc2.number_input("W", value=70.0, format="%.4f", key="w_in")
-        north = mc3.number_input("N", value=25.0, format="%.4f", key="n_in")
-        east = mc4.number_input("E", value=80.0, format="%.4f", key="e_in")
-        if mc5.button("🔍 ANALYZE", use_container_width=True):
-            st.session_state.bbox = {"south": south, "west": west, "north": north, "east": east}
-            st.session_state.messages = []
-            st.session_state.current_analysis = generate_analysis(south, west, north, east)
-            st.session_state.analysis_count += 1
+    components.html(create_map_html(), height=550, scrolling=False)
 
 # ── Analysis Panel ──
 with panel_col:
