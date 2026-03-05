@@ -14,7 +14,7 @@
 > _"Ask questions about satellite imagery in natural language and get intelligent, domain-aware answers."_
 
 ---
-
+LIVE DEMO :- https://terrasight.streamlit.app/
 ## ✨ Highlights
 
 - 🛰️ **Multispectral Vision-Language Model** — SpectralViT encoder + GPT-2 decoder with LoRA fine-tuning  
