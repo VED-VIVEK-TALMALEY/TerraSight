@@ -29,23 +29,94 @@
 ## 🏗️ Architecture
 
 ```
-┌─────────────────────────────────────────────────────────────────┐
-│                      TerraSight Platform                        │
-├─────────────────────────────────────────────────────────────────┤
-│                                                                 │
-│  ┌──────────────┐    ┌──────────────┐    ┌──────────────┐      │
-│  │  React +     │───▶│  Express.js  │───▶│  FastAPI     │      │
-│  │  MapLibre 3D │    │  Backend     │    │  Model API   │      │
-│  │  Frontend    │◀───│  (Node.js)   │◀───│  (Python)    │      │
-│  └──────────────┘    └──────────────┘    └──────────────┘      │
-│         ▲                                       │               │
-│         │                                       ▼               │
-│  ┌──────────────┐                      ┌──────────────┐        │
-│  │  Zustand     │                      │ SpectralViT  │        │
-│  │  State Mgmt  │                      │ + GPT-2      │        │
-│  └──────────────┘                      │ Multimodal   │        │
-│                                        └──────────────┘        │
-└─────────────────────────────────────────────────────────────────┘
++============================= TERRASIGHT PLATFORM =============================+
+|                                                                              |
+|  USER LAYER                                                                  |
+|  +-----------------------------------------------------------------------+   |
+|  |  Browser (localhost:5173)                                             |   |
+|  |  - 3D Map (MapLibre GL) with Shift+drag polygon selection            |   |
+|  |  - Research Chat panel with contextual memory                        |   |
+|  |  - Multimodal upload (images, video, text)                           |   |
+|  |  - Auth login + Dashboard with training metrics                      |   |
+|  +----------------------------------+------------------------------------+   |
+|                                     |                                        |
+|                              HTTP requests                                   |
+|                                     |                                        |
+|  FRONTEND LAYER (React + TypeScript + Vite)                                  |
+|  +-----------------------------------------------------------------------+   |
+|  |  App.tsx           - App shell with auth gate                         |   |
+|  |  Map3D.tsx         - MapLibre 3D map, polygon draw, canvas capture    |   |
+|  |  ChatPanel.tsx     - Chat UI, auto-analysis, RL feedback, training    |   |
+|  |  useGeoStore.ts    - Zustand state (area, messages, session, cache)   |   |
+|  |  api.ts            - API client for all backend routes                |   |
+|  +----------------------------------+------------------------------------+   |
+|                                     |                                        |
+|                           POST /api/research/*                               |
+|                           POST /api/auth/*                                   |
+|                                     |                                        |
+|  ORCHESTRATION BACKEND (Express.js + TypeScript, port 3001)                  |
+|  +-----------------------------------------------------------------------+   |
+|  |  server.ts         - Express bootstrap, CORS, rate limiting           |   |
+|  |  research.ts       - /area, /chat, /multimodal, /feedback, /train     |   |
+|  |  auth.ts           - /login, /me authentication endpoints             |   |
+|  |  openaiService.ts  - Provider routing (local model vs OpenAI)         |   |
+|  |                      Intent detection, flood/drought handlers         |   |
+|  |                      Prompt-leak cleanup, quality filters             |   |
+|  |  geoValidation.ts  - Zod schemas for all request payloads            |   |
+|  |  cache.ts          - TTL cache for area analysis responses            |   |
+|  +----------------------------------+------------------------------------+   |
+|                                     |                                        |
+|                         POST /analyze, /chat                                 |
+|                         (http://127.0.0.1:8000)                              |
+|                                     |                                        |
+|  ML API LAYER (FastAPI + Uvicorn, port 8000)                                 |
+|  +-----------------------------------------------------------------------+   |
+|  |  api_server.py     - FastAPI model service                            |   |
+|  |  Endpoints:                                                           |   |
+|  |    POST /analyze       - Single image + question analysis             |   |
+|  |    POST /batch_analyze - Batch image processing                       |   |
+|  |    POST /analyze_dual  - Two-image change detection report            |   |
+|  |    POST /chat          - Research chat with session memory            |   |
+|  |    POST /chat/reset    - Clear chat session                           |   |
+|  |    GET  /health        - Service health check                         |   |
+|  +----------------------------------+------------------------------------+   |
+|                                     |                                        |
+|                            Model inference                                   |
+|                                     |                                        |
+|  MODEL LAYER (SpectralViT + GPT-2 + LoRA)                                   |
+|  +-----------------------------------------------------------------------+   |
+|  |                                                                       |   |
+|  |   Multispectral Input (up to 13 bands, 512x512)                       |   |
+|  |          |                                                            |   |
+|  |          v                                                            |   |
+|  |   [Spectral Attention] --- Band-aware cross-attention                 |   |
+|  |   [Patch Embedding]    --- Flatten patches to token sequences         |   |
+|  |          |                                                            |   |
+|  |          v                                                            |   |
+|  |   [SpectralViT Encoder] --- Vision Transformer with spectral adapters |   |
+|  |          |                                                            |   |
+|  |          v                                                            |   |
+|  |   [Projection Layer]    --- Linear/MLP mapping vision to text space   |   |
+|  |          |                                                            |   |
+|  |          v                                                            |   |
+|  |   [GPT-2 Decoder + LoRA Adapters] --- PEFT fine-tuned generation      |   |
+|  |          |                                                            |   |
+|  |          v                                                            |   |
+|  |   Text Response (EO analysis, NDVI, land cover, reports)              |   |
+|  |                                                                       |   |
+|  +-----------------------------------------------------------------------+   |
+|                                                                              |
+|  DATA LAYER                                                                  |
+|  +-----------------------------------------------------------------------+   |
+|  |  checkpoints/        - Trained model weights (.pt)                    |   |
+|  |  data/raw/eurosat/   - EuroSAT land cover images (100 samples)        |   |
+|  |  data/raw/sentinel2/ - Sentinel-2 multispectral bands (.npy)          |   |
+|  |  data/training/      - Instruction-tuning annotations (.json)         |   |
+|  |  metrics/            - Training loss curves, history CSV/JSON         |   |
+|  |  results/            - Evaluation outputs (baseline + trained)        |   |
+|  +-----------------------------------------------------------------------+   |
+|                                                                              |
++==============================================================================+
 ```
 
 ### Component Breakdown
@@ -314,12 +385,19 @@ Draw polygon on map → Auto-capture area image → Send to AI backend
 | **EO Terminology** | Average domain-specific terms per response |
 | **Satellite-Specific** | Accuracy on RESOURCESAT / CARTOSAT / RISAT queries |
 
-### Training Results (Latest)
+### Training Results (7 Epochs, LoRA Fine-Tuning)
 
-| Epoch | Train Loss | Val Loss |
-|-------|-----------|----------|
-| 1 | 5.0410 | 4.1517 |
-| 2 | 3.8561 | 3.9485 |
+| Epoch | Train Loss | Val Loss | Learning Rate | Improvement |
+|-------|-----------|----------|---------------|-------------|
+| 1 | 5.632 | 4.271 | 1.95e-05 | — |
+| 2 | 4.112 | 4.209 | 1.71e-05 | ↓ 0.062 |
+| 3 | 3.809 | 4.091 | 1.31e-05 | ↓ 0.118 |
+| 4 | 3.615 | 3.987 | 8.44e-06 | ↓ 0.104 |
+| 5 | 3.433 | 3.780 | 4.12e-06 | ↓ 0.207 |
+| 6 | 3.339 | **3.514** | 1.09e-06 | ↓ 0.266 |
+| 7 | 3.304 | 3.570 | 0.0 | ↑ 0.056 |
+
+> **Best checkpoint at epoch 6** — Val loss: 3.514 | Train loss drop: 41.3% | 315 global steps
 
 Run evaluation:
 ```bash
