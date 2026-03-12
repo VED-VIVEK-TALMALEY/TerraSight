@@ -13,8 +13,9 @@
   <img src="https://img.shields.io/badge/License-MIT-green" />
 </p>
 
-# 🌍 TerraSight — Multimodal AI for Earth Observation
-<img width="1024" height="572" alt="image" src="https://github.com/user-attachments/assets/7fed47de-5fdb-426e-89d0-135e1f05c986" />
+#  TerraSight — Multimodal AI for Earth Observation
+<img width="2752" height="1536" alt="image" src="https://github.com/user-attachments/assets/c60ff5bf-0280-4e2d-b283-51e13230f98b" />
+
 
 **TerraSight** (EarthAware) is an end-to-end geospatial AI platform that combines a **Multispectral Vision-Language Model** with an interactive **3D map research assistant**. Built as a solution to ISRO's challenge of enhancing open-source GPT models with multimodal vision capabilities for Earth Observation (EO) data.
 
@@ -22,18 +23,18 @@
 
 ---
 LIVE DEMO :- https://terrasight.streamlit.app/
-## ✨ Highlights
+##  Highlights
 
-- 🛰️ **Multispectral Vision-Language Model** — SpectralViT encoder + GPT-2 decoder with LoRA fine-tuning  
-- 🗺️ **3D Map Research Assistant** — Interactive MapLibre GL interface with polygon selection & real-time analysis  
-- 🔬 **ISRO Satellite Support** — Designed for RESOURCESAT, CARTOSAT, RISAT, OCEANSAT, and Sentinel-2 data  
-- 📡 **Full-Stack Architecture** — Python ML backend → Node.js orchestration → React frontend  
-- 🎯 **Instruction-Tuned** — Fine-tuned on EO-specific instruction data for land cover classification, VQA, change detection & disaster response  
-- 📊 **Built-in Evaluation** — Comprehensive metrics: VQA accuracy, BLEU scores, EO terminology analysis  
+-  **Multispectral Vision-Language Model** — SpectralViT encoder + GPT-2 decoder with LoRA fine-tuning  
+-  **3D Map Research Assistant** — Interactive MapLibre GL interface with polygon selection & real-time analysis  
+-  **ISRO Satellite Support** — Designed for RESOURCESAT, CARTOSAT, RISAT, OCEANSAT, and Sentinel-2 data  
+-  **Full-Stack Architecture** — Python ML backend → Node.js orchestration → React frontend  
+-  **Instruction-Tuned** — Fine-tuned on EO-specific instruction data for land cover classification, VQA, change detection & disaster response  
+-  **Built-in Evaluation** — Comprehensive metrics: VQA accuracy, BLEU scores, EO terminology analysis  
 
 ---
 
-## 🏗️ Architecture
+##  Architecture
 
 ```
 +============================= TERRASIGHT PLATFORM =============================+
@@ -140,7 +141,7 @@ LIVE DEMO :- https://terrasight.streamlit.app/
 
 ---
 
-## 📁 Project Structure
+##  Project Structure
 
 ```
 TerraSight/
@@ -207,7 +208,7 @@ TerraSight/
 
 ---
 
-## 🚀 Quick Start
+##  Quick Start
 
 ### Prerequisites
 
@@ -281,7 +282,7 @@ Open **http://localhost:5173** in your browser.
 
 ---
 
-## 🧠 Model Architecture
+##  Model Architecture
 
 ### SpectralViT + GPT-2 Multimodal Model
 
@@ -327,7 +328,7 @@ Open **http://localhost:5173** in your browser.
 
 ---
 
-## 🗺️ Geo Research Assistant
+##  Geo Research Assistant
 
 The web application provides an interactive research interface:
 
@@ -352,7 +353,7 @@ Draw polygon on map → Auto-capture area image → Send to AI backend
 
 ---
 
-## 📡 API Reference
+##  API Reference
 
 ### Python Model API (FastAPI — Port 8000)
 
@@ -381,7 +382,7 @@ Draw polygon on map → Auto-capture area image → Send to AI backend
 
 ---
 
-## 📊 Evaluation & Metrics
+##  Evaluation & Metrics
 
 ### Quantitative Metrics
 
@@ -428,7 +429,7 @@ python day5_evaluate_comprehensive.py      # Full benchmark suite
 
 ---
 
-## 🐳 Deployment
+##  Deployment
 
 ### Docker
 
@@ -460,7 +461,7 @@ python run_project.py streamlit  # Launch Streamlit demo
 
 ---
 
-## 📚 Documentation
+##  Documentation
 
 | Document | Description |
 |----------|-------------|
@@ -474,7 +475,7 @@ python run_project.py streamlit  # Launch Streamlit demo
 
 ---
 
-## 🛠️ Tech Stack
+##  Tech Stack
 
 **Machine Learning:**  
 ![PyTorch](https://img.shields.io/badge/PyTorch-ee4c2c?logo=pytorch&logoColor=white)
@@ -499,14 +500,14 @@ python run_project.py streamlit  # Launch Streamlit demo
 
 ---
 
-## 👤 Author
+##  Author
 
 **Ved Vivek Talmaley**  
 🔗 [GitHub](https://github.com/VED-VIVEK-TALMALEY)
 
 ---
 
-## 📄 License
+##  License
 
 This project is open source and available under the [MIT License](LICENSE).
 
@@ -514,5 +515,6 @@ This project is open source and available under the [MIT License](LICENSE).
 
 <p align="center">
   <b>Built with ❤️ for Earth Observation & ISRO</b><br/>
-  <i>TerraSight — See the Earth through AI</i>
+  <i>TerraSight — See the Earth through AI</i><br/>
+  by:- VED VIVEK TALMALEY
 </p>
