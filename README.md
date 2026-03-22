@@ -17,7 +17,7 @@
 <img width="2752" height="1536" alt="image" src="https://github.com/user-attachments/assets/c60ff5bf-0280-4e2d-b283-51e13230f98b" />
 
 
-**TerraSight** (EarthAware) is an end-to-end geospatial AI platform that combines a **Multispectral Vision-Language Model** with an interactive **3D map research assistant**. Built as a solution to ISRO's challenge of enhancing open-source GPT models with multimodal vision capabilities for Earth Observation (EO) data.
+**TerraSight** is an end-to-end geospatial AI platform that combines a **Multispectral Vision-Language Model** with an interactive **3D map research assistant**. Built as a solution to ISRO's challenge of enhancing open-source GPT models with multimodal vision capabilities for Earth Observation (EO) data.
 
 > _"Ask questions about satellite imagery in natural language and get intelligent, domain-aware answers."_
 
