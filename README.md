@@ -502,7 +502,7 @@ python run_project.py streamlit  # Launch Streamlit demo
 
 ##  Author
 
-**Ved Vivek Talmaley**  
+**Ved Vivek Talmaley & Saksham Srivastava**  
 🔗 [GitHub](https://github.com/VED-VIVEK-TALMALEY)
 
 ---
@@ -517,4 +517,5 @@ This project is open source and available under the [MIT License](LICENSE).
   <b>Built with ❤️ for Earth Observation & ISRO</b><br/>
   <i>TerraSight — See the Earth through AI</i><br/>
   by:- VED VIVEK TALMALEY
+  & SAKSHAM SRIVASTAVA 
 </p>
