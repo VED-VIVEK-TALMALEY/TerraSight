@@ -500,7 +500,7 @@ python run_project.py streamlit  # Launch Streamlit demo
 
 ---
 
-##  Author
+##  Authors
 
 **Ved Vivek Talmaley & Saksham Srivastava**  
 🔗 [GitHub](https://github.com/VED-VIVEK-TALMALEY)
