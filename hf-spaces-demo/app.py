@@ -14,32 +14,26 @@ from datetime import datetime, timezone
 
 # ── Page Config ──────────────────────────────────────────────
 st.set_page_config(
-    page_title="TerraSight — EO Intelligence",
-    page_icon="🌍",
+    page_title="TerraSight — EO Intelligence Platform",
     layout="wide",
     initial_sidebar_state="collapsed",
 )
 
-# ── Session State Init ───────────────────────────────────────
-if "messages" not in st.session_state:
-    st.session_state.messages = []
-if "current_analysis" not in st.session_state:
-    st.session_state.current_analysis = None
-if "bbox" not in st.session_state:
-    st.session_state.bbox = None
-if "analysis_count" not in st.session_state:
-    st.session_state.analysis_count = 0
-
 # ── CSS — War Room Dark Theme ───────────────────────────────
 st.markdown("""
 <style>
-@import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&family=Inter:wght@400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&family=Inter:wght@400;500;600;700&family=Geist+Mono:wght@100..900&display=swap');
 
 /* Global */
 .stApp {
     background: #050505 !important;
     color: #c8ccd0 !important;
     font-family: 'Inter', sans-serif !important;
+}
+
+/* Header style font */
+.header-font {
+    font-family: 'Geist Mono', monospace !important;
 }
 
 /* Hide default Streamlit elements */
@@ -55,7 +49,7 @@ div[data-testid="stToolbar"] { display: none; }
     display: flex;
     align-items: center;
     justify-content: space-between;
-    font-family: 'JetBrains Mono', monospace;
+    font-family: 'Geist Mono', monospace;
     font-size: 0.8rem;
     margin: -1rem -1rem 0 -1rem;
 }
@@ -63,7 +57,7 @@ div[data-testid="stToolbar"] { display: none; }
     display: flex; align-items: center; gap: 12px;
 }
 .header-brand .logo { font-size: 1.3rem; font-weight: 700; color: #00e5ff; letter-spacing: 2px; }
-.header-brand .version { color: #4a5568; font-size: 0.65rem; }
+.header-brand .version { color: #4a5568; font-size: 0.65rem; font-family: 'JetBrains Mono', monospace; }
 .header-status {
     display: flex; align-items: center; gap: 20px;
 }
@@ -724,14 +718,14 @@ with st.sidebar:
 # ══════════════════════════════════════════════════════════════
 
 QUICK_LOCATIONS = {
-    "🌿 Amazon Rainforest": (-3.0, -60.0, 2.0, -55.0),
-    "🏙️ New Delhi": (28.3, 76.8, 29.0, 77.5),
-    "🏜️ Sahara Desert": (22.0, 10.0, 27.0, 15.0),
-    "🌊 Indian Ocean": (5.0, 70.0, 10.0, 80.0),
-    "🏔️ Himalayas": (27.5, 85.5, 28.5, 87.0),
-    "🌾 Punjab Crops": (30.0, 74.0, 32.0, 76.0),
-    "🗼 Tokyo Urban": (35.5, 139.5, 35.9, 140.0),
-    "🌲 Congo Forest": (-2.0, 18.0, 2.0, 25.0),
+    "Amazon Rainforest": (-3.0, -60.0, 2.0, -55.0),
+    "New Delhi": (28.3, 76.8, 29.0, 77.5),
+    "Sahara Desert": (22.0, 10.0, 27.0, 15.0),
+    "Indian Ocean": (5.0, 70.0, 10.0, 80.0),
+    "Himalayas": (27.5, 85.5, 28.5, 87.0),
+    "Punjab Crops": (30.0, 74.0, 32.0, 76.0),
+    "Tokyo Urban": (35.5, 139.5, 35.9, 140.0),
+    "Congo Forest": (-2.0, 18.0, 2.0, 25.0),
 }
 
 # Quick access buttons
@@ -752,7 +746,7 @@ with st.container():
     west = c2.number_input("West", value=70.0, format="%.2f", key="w_in", label_visibility="collapsed")
     north = c3.number_input("North", value=25.0, format="%.2f", key="n_in", label_visibility="collapsed")
     east = c4.number_input("East", value=80.0, format="%.2f", key="e_in", label_visibility="collapsed")
-    if c5.button("🔍 ANALYZE", use_container_width=True, type="primary"):
+    if c5.button("ANALYZE", use_container_width=True, type="primary"):
         st.session_state.messages = []
         st.session_state.current_analysis = generate_analysis(south, west, north, east)
         st.session_state.analysis_count += 1
@@ -783,7 +777,6 @@ with panel_col:
         st.markdown("""
         <div class="analysis-section">
             <div style="text-align:center;padding:40px 10px;color:#4a5568;font-size:0.75rem;font-family:'JetBrains Mono',monospace;">
-                <div style="font-size:2rem;margin-bottom:10px;">🛰️</div>
                 <div style="color:#6b7280;">AWAITING TARGET SELECTION</div>
                 <div style="margin-top:8px;color:#4a5568;font-size:0.65rem;">
                     Hold SHIFT + drag on map to select<br>
@@ -814,7 +807,7 @@ with panel_col:
 
         st.markdown(f"""
         <div class="analysis-section">
-            <div class="section-title">📊 SPECTRAL INDICES</div>
+            <div class="section-title">SPECTRAL INDICES</div>
             <div class="metric-row"><span class="metric-key">NDVI</span><span class="metric-val {ndvi_color}">{bio['ndvi']:+.3f}</span></div>
             <div class="metric-row"><span class="metric-key">NDWI</span><span class="metric-val {ndwi_color}">{bio['ndwi']:+.3f}</span></div>
             <div class="metric-row"><span class="metric-key">NDBI</span><span class="metric-val {ndbi_color}">{bio['ndbi']:+.3f}</span></div>
@@ -825,7 +818,7 @@ with panel_col:
         # Region info
         st.markdown(f"""
         <div class="analysis-section">
-            <div class="section-title">🗺️ REGION</div>
+            <div class="section-title">REGION</div>
             <div class="metric-row"><span class="metric-key">Biome</span><span class="metric-val val-white">{bio['biome']}</span></div>
             <div class="metric-row"><span class="metric-key">Cover</span><span class="metric-val val-white">{bio['land_cover']}</span></div>
             <div class="metric-row"><span class="metric-key">Area</span><span class="metric-val val-blue">{analysis['area_km2']:,.1f} km²</span></div>
@@ -835,12 +828,12 @@ with panel_col:
         """, unsafe_allow_html=True)
 
         # Bands
-        with st.expander("📡 SPECTRAL BANDS"):
+        with st.expander("SPECTRAL BANDS"):
             for band, val in analysis["bands"].items():
                 st.markdown(f"<div class='metric-row'><span class='metric-key'>{band}</span><span class='metric-val val-white'>{val:.4f}</span></div>", unsafe_allow_html=True)
 
         # Full report
-        with st.expander("📋 FULL REPORT", expanded=False):
+        with st.expander("REPORT", expanded=False):
             st.code(analysis["detail"], language=None)
 
     # ── Follow-up Chat ──
