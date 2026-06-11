@@ -10,10 +10,14 @@ build/
 # Virtual environments
 venv/
 env/
-.env/
+.env
 
 # Node
 node_modules/
+
+# Project Specific
+metric_new
+not_needed
 
 # IDE
 .vscode/

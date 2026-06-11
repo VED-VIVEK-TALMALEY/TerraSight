@@ -1,108 +1,32 @@
-# 🚀 EARTHAWARE - BUILD FROM SCRATCH GUIDE
+# Build Protocol: TerraSight System Implementation
 
-**Clean build of Multispectral Vision-Language Model**
+## 1. Abstract
+This document delineates the standard operating procedure for building the TerraSight system from source. The architecture consists of a multispectral Vision-Language Model (VLM) integrated with a full-stack geospatial research interface.
 
----
+## 2. Infrastructure Setup
 
-## ✅ COMPLETED SO FAR:
+### 2.1 Virtual Environment Initialization
+python -m venv venv
+./venv/Scripts/activate
 
-- [x] Created folder structure
-- [x] Setup Python venv
-- [x] Created requirements.txt
+### 2.2 Dependency Resolution
+pip install torch torchvision transformers peft numpy pillow matplotlib fastapi uvicorn strawberry-graphql[fastapi] python-multipart tqdm requests streamlit
 
----
+## 3. Web Application Construction
 
-## 📋 BUILD ORDER:
+### 3.1 Orchestration Layer (Node.js/Express)
+cd earthaware/geo-research-assistant/backend
+npm install
+npm run build
 
-### **Phase 1: Core Model (30 min)**
-1. Create spectral attention module
-2. Create SpectralViT architecture  
-3. Create multimodal model (SpectralViT + GPT-2)
-4. **Copy trained checkpoint** from old project (best_model.pt)
+### 3.2 Client Layer (React/TypeScript)
+cd ../frontend
+npm install
+npm run build
 
-### **Phase 2: Data Generation (15 min)**
-5. Create synthetic multispectral data generator
-6. Generate 50 samples with 13 bands
-7. Create training dataset (150 captions)
+## 4. Model Checkpoint Integration
+Place the trained model weights (isro_eo_enhanced_best.pt) within the directory:
+earthaware/checkpoints/
 
-### **Phase 3: Backend API (20 min)**
-8. Create GraphQL backend
-9. Integrate both models (baseline + trained)
-10. Test API endpoints
-
-### **Phase 4: Frontend (25 min)**
-11. Create React app
-12. Build interactive map UI
-13. Connect to GraphQL backend
-14. Test end-to-end
-
----
-
-## 🎯 TOTAL TIME: ~90 minutes
-
-**Faster than Day 1-6 (54 hours) because we know exactly what to do!**
-
----
-
-## 🚀 LET'S START!
-
-### STEP 1: Install Dependencies
-
-```powershell
-# In earthaware folder with venv activated
-pip install -r requirements.txt
-```
-
-**This takes 5-10 minutes to download all packages.**
-
-### STEP 2: Copy Trained Model
-
-```powershell
-# Copy from old project (skip retraining!)
-Copy-Item "C:\Users\talma\Desktop\EO-project\EO-GPTOSS\checkpoints\best_model.pt" `
-          "C:\Users\talma\Desktop\EO-project\earthaware\checkpoints\" -Force
-```
-
-**This saves ~10 minutes of training time!**
-
----
-
-## 📝 FILES I'LL CREATE FOR YOU:
-
-All files will be ready to download from outputs folder:
-
-**Models:**
-- `models/spectral_attention.py`
-- `models/spectral_vit.py`
-- `models/multimodal_model.py`
-
-**Data:**
-- `data/generate_data.py`
-- `data/create_dataset.py`
-
-**Backend:**
-- `backend/backend_graphql.py`
-
-**Frontend:**
-- `frontend/src/App.js`
-- `frontend/src/App.css`
-- `frontend/package.json`
-
-**Docs:**
-- `README.md` (proper documentation)
-- `SETUP.md` (installation guide)
-
----
-
-## ⚡ ADVANTAGES OF FRESH BUILD:
-
-✅ Clean code structure
-✅ No git conflicts
-✅ Proper organization
-✅ Better documentation
-✅ Easier to share
-✅ Portfolio-ready
-
----
-
-**Ready to start? Tell me to proceed and I'll create all the files!** 🎯
+## 5. Execution
+Refer to QUICK_START.md for runtime procedures.
