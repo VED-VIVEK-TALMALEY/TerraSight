@@ -21,3 +21,4 @@ Interactive demo of the TerraSight platform — a multimodal Vision-Language Mod
 - 🏗️ Full architecture visualization
 
 **Full Source:** [GitHub Repository](https://github.com/VED-VIVEK-TALMALEY/TerraSight)
+

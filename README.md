@@ -41,3 +41,4 @@ A language model is integrated via a projection layer, enabling the system to ge
 
 ## Compliance and Standards
 This project is designed in alignment with ISRO multimodal satellite imagery requirements.
+

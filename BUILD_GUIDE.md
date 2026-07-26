@@ -30,3 +30,4 @@ earthaware/checkpoints/
 
 ## 5. Execution
 Refer to QUICK_START.md for runtime procedures.
+
